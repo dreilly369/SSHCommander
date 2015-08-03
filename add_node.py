@@ -65,7 +65,7 @@ def validate_ip(s):
 def push_key_to_node(node):
     goforit = raw_input("add key to %s [y/n]> " % node['address'])
     if goforit in ["y","Y"]:
-        logpass = getpass.getpass(prompt='Login Password > ') #for use later in updating the /etc/sshd_conf remotely
+        logpass = getpass.getpass(prompt='Login Password > ')
         nip,nport = get_address_parts(node)
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
