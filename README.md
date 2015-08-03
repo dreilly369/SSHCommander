@@ -1,3 +1,5 @@
+![SSH Terminal](http://www.pc-freak.net/images/ssh-how-to-login-with-password-provided-from-command-line-use-sshpass-to-run-same-command-to-forest-of-linux-servers.png "SSHCommander 1")
+
 # SSHCommander
 SSHCommander is a multi-threaded python based utility to control network nodes via SSH using Paramiko. It uses encrypted Public/Private keys to securely log in to each node. More features are planned....If I get around to them :) For now, it works for most basic use cases. It is limited by the quirks of Paramiko, but that has not really limited me. 
 
