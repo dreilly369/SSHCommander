@@ -1,0 +1,4 @@
+{"FOLDERS": {"known_hosts": "/root/.ssh/known_hosts"}, 
+"NODES": {
+"node-1": {"username": "root", "address": "192.168.0.2:2369", "key_path": "/var/www/security/node-1", "pass": "key-password"}, 
+"node-2": {"username": "root", "address": "192.168.0.3", "key_path": "/root/.ssh/node-2", "pass": "key-pass2"}}}
