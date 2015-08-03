@@ -9,6 +9,7 @@ import subprocess
 import random
 from optparse import OptionParser
 import os
+import errno
 from os import chmod
 from Crypto.PublicKey import RSA 
 from random import Random  
@@ -112,7 +113,14 @@ def add_nodes_to_conf(new_nodes,conf_file,nc=0):
     except Exception as e: 
         print e
         exit(1)
-            
+
+def make_path_exist(path):
+    try:
+        os.makedirs(path)
+    except OSError as exception:
+        if exception.errno != errno.EEXIST:
+            raise
+        
 def def_nodes(conf_file):
     enter_again = True
     new_nodes = {}
@@ -131,6 +139,8 @@ def def_nodes(conf_file):
         generate_node_key(name,keydir,keypass)
         push_key_to_node(new_node)
         new_nodes[name] = new_node
+        ip,port = get_address_parts(new_node)
+        make_path_exist("custom/%s" % ip)
         again = uname = raw_input("Add another Node? (y/n) > ")
         if again.lower() is not "y":
             enter_again = False
