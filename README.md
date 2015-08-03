@@ -67,7 +67,7 @@ These scripts are placed in the `common/` directory and will be run on every nod
 
 ### One Shot vs. Repeater
 Some scripts you may only want to run once (or once in a while). SSHCommander allows this by archiving scripts. It will rename the script extension fron .cmdr to .bkp 
-To make a script archive after it is run simply add a `%` on its own line somewhere in the file. For common scripts the archiving is deffered until all threads return to avoid a race condition where some node would archive the script before another node would request the common scripts.
+To make a script archive after it is run simply add a `%` as the last line of the file. For common scripts the archiving is deffered until all threads return to avoid a race condition where some node would archive the script before another node would request the common scripts.
 
 ## Contribute
 If you look and this and say "I could do better" I say, yeah probably. Please do. And then send me a PR for bonus karma. Some features and bugs I am looking to handle are:
