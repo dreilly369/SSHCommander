@@ -1,0 +1,1 @@
+{"FOLDERS": {"known_hosts": "/root/.ssh/known_hosts"}, "NODES": {"black-flag": {"username": "root", "address": "192.168.0.127:2369", "key_path": "/var/www/security/black-flag", "pass": "Gh0stPirates369!"}, "cannonball": {"username": "root", "address": "192.168.0.107", "key_path": "/root/.ssh/sip-o-rum_key", "pass": "none"}}}
