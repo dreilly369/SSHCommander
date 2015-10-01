@@ -140,7 +140,7 @@ def def_nodes(conf_file):
         push_key_to_node(new_node)
         new_nodes[name] = new_node
         ip,port = get_address_parts(new_node)
-        make_path_exist("custom/%s" % ip)
+        make_path_exist("custom/%s" % name)
         again = uname = raw_input("Add another Node? (y/n) > ")
         if again.lower() is not "y":
             enter_again = False
