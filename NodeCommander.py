@@ -7,11 +7,11 @@ import time
 
 class NodeCommander(threading.Thread):
     
-    def __init__(self, threadID, node):
+    def __init__(self, threadID, nodeID, node):
         threading.Thread.__init__(self)
         self.threadID = threadID
         self.node = node
-        
+        self.nodeID = nodeID
                         
         self.failed_banner = '''
                   .-""""""-.
@@ -63,9 +63,9 @@ class NodeCommander(threading.Thread):
         files = {}
         ip,port = self.get_address_parts()
         try:
-            files = glob.glob("custom/%s/*.cmdr" % ip)
+            files = glob.glob("custom/%s/*.cmdr" % self.nodeID)
             fcnt = len(files)
-            print "Found %d Files for %s" % (fcnt,ip)
+            print "Found %d Files for %s (%s)" % (fcnt, self.nodeID, ip)
             return files
         except Exception as e:
             print 'There is no custom folder for %s, or it is inaccessible. Skipping' % ip
