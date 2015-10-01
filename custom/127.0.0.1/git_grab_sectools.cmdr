@@ -1,8 +1,0 @@
-#Script to grab some of my other Forks
-cd /opt/;git clone https://github.com/dreilly369/Dshell
-# For some reason it doesn't like staying cd'd across lines :(
-cd /opt/;git clone https://github.com/dreilly369/fruit_picker 
-cd /opt/;git clone https://github.com/dreilly369/arachni
-cd /opt/;git clone https://github.com/dreilly369/MITMf
-cd /opt/MITMf;./setup.sh;pip install --upgrade -r requirements.txt;
-%
