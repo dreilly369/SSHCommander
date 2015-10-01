@@ -84,8 +84,9 @@ if __name__ == "__main__":
         print "Firing off %d Threads" % node_count
         for i in range(node_count):
             n = nodes.keys()[i]
+            #print n
             node = nodes[n]
-            t = NodeCommander("Thread-%s" % i,node)
+            t = NodeCommander("Thread-%s" % i, n, node)
             threads.append(t)
             t.start()
         # Wait for all threads to complete
