@@ -62,7 +62,7 @@ def validate_ip(s):
             return False
     return True
 
-def push_key_to_node(node):
+def push_key_to_node(node,keyname):
     goforit = raw_input("add key to %s [y/n]> " % node['address'])
     if goforit in ["y","Y"]:
         logpass = getpass.getpass(prompt='Login Password > ')
@@ -71,7 +71,7 @@ def push_key_to_node(node):
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         client.connect(nip, port=nport, username=node['username'], password=logpass)
         client.exec_command('mkdir -p ~/.ssh/')
-        client.exec_command('echo "%s" > ~/.ssh/authorized_keys' % key)
+        client.exec_command('echo "%s" > ~/.ssh/authorized_keys' % keyname)
         client.exec_command('chmod 644 ~/.ssh/authorized_keys')
         client.exec_command('chmod 700 ~/.ssh/')
         print "Key added to %s" % nip
@@ -88,7 +88,7 @@ def key_path(dir,name):
 def generate_node_key(node_name,loc,passwd):
     privkf = key_path(loc,node_name)
     print subprocess.call("ssh-keygen -f %s -N %s -t rsa" % (privkf, passwd), shell=True)
-
+    
 def add_nodes_to_conf(new_nodes,conf_file,nc=0):
     try:
         f_loc = os.path.dirname(os.path.realpath(__file__))+"/"+conf_file
@@ -137,12 +137,12 @@ def def_nodes(conf_file):
             "address": addr
         }
         generate_node_key(name,keydir,keypass)
-        push_key_to_node(new_node)
+        push_key_to_node(new_node,name)
         new_nodes[name] = new_node
         ip,port = get_address_parts(new_node)
         make_path_exist("custom/%s" % name)
         again = uname = raw_input("Add another Node? (y/n) > ")
-        if again.lower() is not "y":
+        if again.lower() != "y":
             enter_again = False
             print "Finishing"
     add_nodes_to_conf(new_nodes,conf_file)
