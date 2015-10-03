@@ -6,6 +6,8 @@
 from optparse import OptionParser
 import os
 import json
+import subprocess
+import shutil
 
 __author__="root"
 __date__ ="$Aug 2, 2015 Aug 2, 2015 7:40:06 PM$"
@@ -34,29 +36,74 @@ def list_nodes():
         print e.message
         exit(1)
 
+def enter_deleter():
+    list_nodes()
+    node_name = raw_input("Node Name to DELETE > ")
+    remove_node(node_name)
+    
+def get_bool_choice(message):
+    delete = 'na'
+    while delete.lower() not in ['t','true','f','false','y','yes','n','no']:
+        delete = raw_input(message)
+    if delete.lower() in ['t','true','y','yes']:
+        return True
+    else:
+        return False
+
 def remove_node(nn):
     global c_file
     out_nodes = {}
+    is_num = False
+    key_num = 0
+    try:
+        key_num = int(nn)
+        print "Deleting Node #%d" % key_num
+        is_num = True
+    except Exception:
+        print "Deleting Node with Name %s" % nn
     try:
         with open(c_file,'r') as f:
             data = json.load(f)
             nodes = data["NODES"]
-            
-        for name in nodes.keys():
-            print "checking %s" % name
-            node_def = nodes[name]
-            if name == nn:
-                print node_def
-                print "Removed from Config"
-            else:
-                out_nodes[name] = node_def
-                
-        data["NODES"] = out_nodes
-        with open(c_file, 'w') as f:
-            json.dump(data, f)
     except Exception as e:
         print e.message
         exit(1)
+      
+    erase_node = {}
+    if not is_num:
+        for name in nodes.keys():
+            if name == nn:
+                erase_node[name] = nodes[name]
+                print node_def
+            else:
+                out_nodes[name] = nodes[name]
+
+    else:
+        on = 0
+        for name in nodes.keys():
+            if on == key_num:
+                erase_node[name] = nodes[name]
+            else:
+                out_nodes[name] = nodes[name]   
+            on+=1
+    
+    nm = erase_node.keys()[0]
+
+    if get_bool_choice("Would you like to delete the custom folder? (y/n): "):
+        try:
+            shutil.rmtree('custom/%s' % nm)
+            print "Custom Folder custom/%s removed" %nm
+        except OSError as e:
+            print "Folder not found"
+        
+    data["NODES"] = out_nodes
+    with open(c_file, 'w') as f:
+        json.dump(data, f)
+    print "Removed %s from Config" % nm
+    if get_bool_choice("Would you like to delete another Node? (y/n): "):
+        enter_deleter()
+    else:
+        print "Do not forget to clean up the Keys!"
 
 def exit_func():
     print '''\033[1;34m
@@ -101,7 +148,5 @@ if __name__ == "__main__":
     (options, args) = parser.parse_args()
     print "\033[1;34m"+usage_msg()+"\033[1;m"
     c_file = options.conf_file
-    list_nodes()
-    node_name = raw_input("Node Name to DELETE > ")
-    remove_node(node_name)
+    enter_deleter()
     exit_func()
