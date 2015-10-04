@@ -62,23 +62,35 @@ def validate_ip(s):
             return False
     return True
 
-def push_key_to_node(node,keyname):
+def push_key_to_node(node):
+    nip,nport = get_address_parts(node)
+    print "Remember to push this key with:"
+    print "cat %s | ssh -p %s %s@%s 'cat >> ~/.ssh/authorized_keys'" % (node["key_path"], nport, node["username"], nip)
+    print ""
+    
+    '''
     goforit = raw_input("add key to %s [y/n]> " % node['address'])
     if goforit in ["y","Y"]:
+        keyfile = node["key_path"]
+        keydata = open(keyfile,"r")
         logpass = getpass.getpass(prompt='Login Password > ')
         nip,nport = get_address_parts(node)
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         client.connect(nip, port=nport, username=node['username'], password=logpass)
         client.exec_command('mkdir -p ~/.ssh/')
-        client.exec_command('echo "%s" > ~/.ssh/authorized_keys' % keyname)
+        client.exec_command('echo "%s" >> ~/.ssh/authorized_keys' % keydata)
         client.exec_command('chmod 644 ~/.ssh/authorized_keys')
         client.exec_command('chmod 700 ~/.ssh/')
+        
+        #call_str = "cat %s.pub | ssh -p %s %s@%s 'cat >> ~/.ssh/authorized_keys'" % (keyfile, nport, node["username"], nip)
+        #print call_str
+        #subprocess.call(call_str)
         print "Key added to %s" % nip
     else:
         print "Skipping upload.\n You will need to do this manually before SSHCommander will work"
         return
-
+    '''
 def key_path(dir,name):
     if dir[:-1] is "/":
         return dir+name
@@ -94,7 +106,8 @@ def add_nodes_to_conf(new_nodes,conf_file,nc=0):
         f_loc = os.path.dirname(os.path.realpath(__file__))+"/"+conf_file
         if not os.path.isfile(f_loc):
             print "creating %s" % f_loc
-            open(f_loc, 'w').close() 
+            f = open(f_loc, 'w')
+            f.close()
         with open(f_loc,'r') as f:
             try:
                 data = json.load(f)
