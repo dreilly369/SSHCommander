@@ -1,2 +1,5 @@
 keys/*
 *.pyc
+conf/*
+custom/*
+common/*
