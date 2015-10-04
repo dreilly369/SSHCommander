@@ -36,7 +36,7 @@ class NodeCommander(threading.Thread):
             print "Failed to connect to %s" % (self.node['address'])
             print e.message
             print self.failed_banner
-            return
+            raise
         
     def is_special(self,cmd):
         commands = {
@@ -82,7 +82,7 @@ class NodeCommander(threading.Thread):
         except Exception:
             raise
         
-        c = self.conn
+        c = self.connect_node()
         i = 0
         while i < len(flist):
             file = str(flist[i])
