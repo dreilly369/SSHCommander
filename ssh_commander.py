@@ -34,8 +34,9 @@ def archive_common_dir():
         for file in files:
             line = subprocess.check_output(['tail', '-1', file])
             if line.startswith("%"):
+                file = os.path.realpath(file)
                 new_name = file.replace('.cmdr', '.bkp')
-                subprocess.check_output(['mv %s %s' % (file,new_name) ])
+                os.rename(file, new_name)
     except Exception:
         raise
 
