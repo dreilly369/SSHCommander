@@ -19,7 +19,6 @@ Again, most Linux systems come with SSH pre-installed. To configure SSH to be us
 PermitEmptyPasswords no
 ChallengeResponseAuthentication no
 PasswordAuthentication no
-X11Forwarding no
 LoginGraceTime 5
 PermitRootLogin yes
 StrictModes yes
@@ -60,7 +59,7 @@ Using SSHCommander to manage nodes is as easy as placing a script in a directory
 `python ssh_commander.py`
 
 ###Custom
-Custom scripts are placed under the `custom/<address>/` directory. They will be run on the corresponding node only.
+Custom scripts are placed under the `custom/<node-name>/` directory. They will be run on the corresponding node only.
 
 ###Common
 These scripts are placed in the `common/` directory and will be run on every node in the config.
