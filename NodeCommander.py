@@ -56,7 +56,6 @@ class NodeCommander(threading.Thread):
             parts.append(22)
         else:
             parts[1] = int(parts[1])
-        print parts
         return [parts[0],parts[1]]
     
     def get_file_list(self):
@@ -103,7 +102,7 @@ class NodeCommander(threading.Thread):
                     stdin , stdout, stderr = c.exec_command(command)
                     print stdout.read()
                     errs = stderr.read()
-                    if errs is not None:
+                    if len(errs) > 0:
                         print( "Errors:")
                         print errs
             if archive_me and not "common" in dirstr:
